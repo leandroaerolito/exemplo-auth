@@ -1,8 +1,9 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 
 import { auth } from "../../firebase.config";
+import { signOut } from "firebase/auth";
 
-export default function AreaLogada(navigation) {
+export default function AreaLogada({ navigation }) {
   // Acessando dados do usuário logado
   // console.log(auth.currentUser);
 
