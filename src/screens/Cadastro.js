@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { Alert, Button, StyleSheet, TextInput, View } from "react-native";
 
-export default function Cadastro(navigation) {
+export default function Cadastro({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
@@ -15,8 +15,44 @@ export default function Cadastro(navigation) {
 
     try {
       await createUserWithEmailAndPassword(auth, email, senha);
+      Alert.alert("Cadastro", "Seu cadastro foi concluído com sucesso", [
+        {
+          style: "cancel",
+          text: "Ficar aqui mesmo",
+          onPress: () => {
+            return;
+          },
+        },
+        {
+          style: "default",
+          text: "Ir para a área logada",
+          onPress: () => navigation.replace("AreaLogada"),
+        },
+      ]);
     } catch (error) {
       console.error(error.code);
+      let mensagem;
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          mensagem = "Email já cadastrado!";
+          break;
+
+        case "auth/weak-password":
+          mensagem = "Senha fraca (mínimo de 6 caracteres)";
+          break;
+
+        case "auth/invalid-credential":
+          mensagem = "Dados inválidos!";
+          break;
+        case "auth/invalid-email":
+          mensagem = "Endereço de e-mail inválido!";
+          break;
+
+        default:
+          mensagem = "Houve um erro, tente mais tarde!";
+          break;
+      }
+      Alert.alert("Ops!", mensagem);
     }
   };
 
