@@ -10,6 +10,8 @@ export default function AreaLogada({ navigation }) {
   const { email } = auth.currentUser;
   console.log(email);
 
+  const { displayName } = auth.currentUser;
+
   const logout = async () => {
     try {
       await signOut(auth);
@@ -21,7 +23,7 @@ export default function AreaLogada({ navigation }) {
   return (
     <View style={estilos.container}>
       <View style={estilos.topo}>
-        <Text style={estilos.bemVindo}>Bem-vindo(a)</Text>
+        <Text style={estilos.bemVindo}>Bem-vindo(a) {displayName}</Text>
         <Text>Seu e-mail de cadastro é:</Text>
         <Text style={{ fontWeight: "bold" }}>{email}</Text>
         <Button onPress={logout} title="Logout" color="#D35400" />
@@ -45,5 +47,6 @@ const estilos = StyleSheet.create({
   bemVindo: {
     fontSize: 24,
     marginVertical: 16,
+    fontWeight: "bold",
   },
 });
